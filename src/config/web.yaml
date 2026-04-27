@@ -54,7 +54,7 @@ groups:
 oidc:
   enabled: true
   provider: 
-    providerid: entra
+    providerid: Entra
     discoveryurl: https://login.microsoftonline.com/a22ff489-2ea9-48de-8d58-fa130b532d5d/v2.0/.well-known/openid-configuration
     clientid: e2700a85-a4a3-4d8e-b220-f4121bfafef7
     clientsecret: ${WEB_OIDC_CLIENT_SECRET}
