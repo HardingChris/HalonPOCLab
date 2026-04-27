@@ -1,0 +1,8 @@
+echo "Executing Postdelivery Hook";
+
+import { log_postdelivery } from "extras://history-elastic";
+
+log_postdelivery([
+    "arguments" => $arguments,
+    "message" => $message
+]);

@@ -1,0 +1,36 @@
+$options = "";
+
+import $config from "config.yaml";
+
+echo "Executing Predelivery Hook";
+
+if($message["recipient"] == "testbounce@emailmasters.co.uk") {
+    echo "Testbounce recipient matched, setting predelivery bounce.";
+    Bounce(["dsn" => [
+        "subject" => "CUSTOM BOUNCE SUBJECT",
+        "from_name" => "Custom Postmaster",
+        "headers" => [
+            "X-Halon-Custom-DSN: enabled"
+        ]
+    ]]);
+}
+
+$recipientdomain = $message["recipientaddress"]["domain"];
+
+if($config["destinations"] and $config["destinations"][$recipientdomain]) {
+    $options = $config["destinations"][$recipientdomain];
+    echo "Found destination config for domain: " . $recipientdomain;
+    echo $options;
+}
+
+
+import { log_predelivery } from "extras://history-elastic";
+
+log_predelivery([
+    "custom" => [
+        "hello" => "world"
+    ],
+    "message" => $message
+]);
+
+Try($options);

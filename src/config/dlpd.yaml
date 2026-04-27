@@ -1,0 +1,13 @@
+version: "10.2"
+environment:
+  controlsocket:
+    group: staff
+    chmod: "0660"
+  socket:
+    owner: halon
+    group: halon
+    chmod: "0600"
+  privdrop:
+    user: halon
+    group: halon
+  umask: "0027"

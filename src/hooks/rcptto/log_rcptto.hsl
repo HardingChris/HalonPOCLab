@@ -1,0 +1,12 @@
+
+echo "Executing RCPTTO Hook";
+
+import { log_rcptto } from "extras://history-elastic";
+
+log_rcptto([
+    "action" => "REJECT",
+    "reason" => "Message was rejected",
+    "arguments" => $arguments,
+    "connection" => $connection,
+    "transaction" => $transaction
+]);

@@ -1,0 +1,19 @@
+import $config from "config.yaml" with ["types" => ["Regex"]];
+
+function is_trusted_ip($remoteip) {
+    global $config;
+    return array_includes(function($server) closure($remoteip) {
+        if (inet_includes($remoteip, $server["ip"]))
+            return true;
+        return false;
+    }, $config["servers"] ?? []);
+}
+
+function is_trusted_user($username, $password) {
+    global $config;
+    return array_includes(function($user) closure($username, $password) {
+        if ($user["username"] === $username and $user["password"] === $password)
+            return true;
+        return false;
+    }, $config["users"] ?? []);
+}

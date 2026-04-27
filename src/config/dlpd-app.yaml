@@ -1,0 +1,29 @@
+version: "10.2"
+limits:
+  filememory: 62914560
+
+rules:
+  - name: EXE
+    type: filename
+    data:
+      - "/\\.com$/i"
+      - "/\\.cpl$/i"
+      - "/\\.exe$/i"
+      - "/\\.jar$/i"
+      - "/\\.scr$/i"
+      - "/\\.lnk$/i"
+  - name: BLOCKPATTERNS
+    type: regex
+    data:
+      - "Blockcontent"
+      - "[A-Za-z]+1234"
+  - name: QUARANTINEPATTERNS
+    type: regex
+    data:
+      - "Quarantinecontent"
+      - "[A-Za-z]+5678"
+  - name: LOGPATTERNS
+    type: regex
+    data:
+      - "Logcontent"
+      - "[A-Za-z]+9012"

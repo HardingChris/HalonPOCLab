@@ -1,0 +1,77 @@
+# macOS
+.DS_Store
+
+# VSCode
+.vs
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# bash settings
+.bash_history
+.bash_profile
+.bashrc
+.bash_logout
+
+# User-specific files
+.lesshst
+.wget-hsts
+.profile
+.viminfo
+.cache/
+.config/
+
+# Editor/IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS-generated files
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node.js
+node_modules/
+
+# Build and test artifacts
+dist/
+build/
+*.o
+*.out
+*.exe
+dist/*
+!dist/.gitkeep
+emails/*
+!emails/.gitkeep
+!emails/tmp
+emails/tmp/*
+!emails/tmp/.gitkeep
+
+# Other user/environment folders
+.copilot/
+.dotnet/
+.ssh/
+.vscode-server/
+
+# DKIM keys
+src/files/dkim/*.key
+
+# Local secrets (never commit)
+secrets.env
+
+# TLS material
+*.key
+*.crt
+
+# Local large test payloads
+test_40mb_blockcontent.txt
+test_Blockcontent_attachment.txt

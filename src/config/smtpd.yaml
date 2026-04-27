@@ -1,0 +1,33 @@
+version: "6.10"
+servers:
+  - id: outbound
+    listeners:
+      - port: 25
+        address: 127.0.0.1
+      - port: 25
+        address: ::1
+environment:
+  controlsocket:
+    group: staff
+    chmod: "0660"
+  privdrop:
+    user: halon
+    group: halon
+  umask: "0027"
+  rlimit:
+    nofile: 70000
+plugins:
+  - id: http-bulk
+    config:
+      queues:
+        - id: elastic
+          concurrency: 1
+          path: /var/log/halon/elastic.jlog
+          format: ndjson
+          url: "https://127.0.0.1:9200/_bulk"
+          timeout: 30
+          max_items: 500
+          tls_verify: false
+          headers:
+            - "Authorization: Basic ${SMTPD_ELASTIC_BASIC_AUTH}"
+          max_interval: 5

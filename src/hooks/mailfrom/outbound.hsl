@@ -1,0 +1,9 @@
+import { is_trusted_ip } from "modules/authentication";
+
+echo "Executing Mailfrom Hook";
+
+$transactionid = $transaction["id"];
+$remoteip      = $connection["remoteip"];
+$authenticated = isset($connection["auth"]) or is_trusted_ip($remoteip);
+
+if(!$authenticated) Reject("Authentication required ($transactionid)");

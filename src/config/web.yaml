@@ -1,0 +1,82 @@
+version: "1.27"
+listeners:
+  - port: 80
+  - port: 443
+    tls:
+      pki:
+        certificate:
+          data: |- 
+            -----BEGIN CERTIFICATE-----
+            MIIDGjCCAgKgAwIBAgIUJhyBdJhyl7piy4os2gQfQnQNM4QwDQYJKoZIhvcNAQEL
+            BQAwFDESMBAGA1UEAwwJMTAuMTAuNC40MB4XDTI2MDQyMDExNDg1MFoXDTI3MDQy
+            MDExNDg1MFowFDESMBAGA1UEAwwJMTAuMTAuNC40MIIBIjANBgkqhkiG9w0BAQEF
+            AAOCAQ8AMIIBCgKCAQEAtJXZpj7XDUCGizNqAD/9c5krgWcfZuQR9cqwevOZhRi/
+            JnVyFV8hxXXv4bzv0bGHzOY3LO90vON4eKQkc93e7tAXX/gRUs/7fnPpSIZvv9ye
+            09ih8IOE2rK3efQn9MDbYJJjvVLEWkxYneZ/FlSTI5C9+w+4U8Ivhbc/1OxpfbL6
+            1/hzaHEch+hemV5Ofd9mArqalbpoSoTX3YHL6zAFN0XJyDxW7u9IFpnq8c0Y9O9s
+            uGZ9JAjg8Spyp3vpxIAGp4gOQUzjHgQUxr0tTmqI7R4H0/CMEZYifqmi6c1frNmn
+            Om0lcFFUg716lwuozcxl8pjH/RoRFPRWYhPNsb1BbQIDAQABo2QwYjAdBgNVHQ4E
+            FgQUeF6a0bWtD+mqCE0DDF1GSE1x9rQwHwYDVR0jBBgwFoAUeF6a0bWtD+mqCE0D
+            DF1GSE1x9rQwDwYDVR0TAQH/BAUwAwEB/zAPBgNVHREECDAGhwQKCgQEMA0GCSqG
+            SIb3DQEBCwUAA4IBAQBZ82xl98wWJIoJ6y6X/opJP/6SoB1gbFaxUdjek9+PkkGH
+            A1MusQ9VgvxQ3zp8XdcPHfLfe6GbF4NgAv11z3mcntXw1MefCH5oVgX0WpqWHiZ/
+            Do4PJQ18buEI+VttKdCYHghVIgOgFXqt6S4KODWMiGmGo/LkflHj4X88MwzxLhxF
+            ddqiXkfSk59gLAtnhvA2WUhZhXdc9Q8hFJtkDpoYhtjYFk/aJOknnBlmWiRPRgF8
+            JFrh99MnzM2Xydz8lnOoAZVmHU7OpnYxhP+0nblNKwVsvYPoSZ8T1SUhXfjnijhZ
+            Sn68S3YDirQwjQftfcGcENaVPGpzPtptU1G2ylti
+            -----END CERTIFICATE-----
+        privatekey:
+          data: |-
+            ${WEB_PRIVATE_KEY_INDENTED}
+hosts:
+  - address: "127.0.0.1"
+    port: 8090
+    tls: false
+users:
+  - username: admin
+    password: ${WEB_ADMIN_PASSWORD}
+groups:
+  - name: b246439f-e3a9-41c8-bd24-f7300d7d3d7f # HalonAdmins
+  - name: 2ec31131-adff-427d-8346-73db04ac4bd3 # HalonHelpdesk
+    features:
+      preview:
+        enabled: false
+      memory:
+        enabled: false
+      rates:
+        enabled: false
+      datamasking:
+        localpart: false
+        subject: true
+        retryreason: false
+        saslusername: false
+      readonly: true
+oidc:
+  enabled: true
+  provider: 
+    providerid: entra
+    discoveryurl: https://login.microsoftonline.com/a22ff489-2ea9-48de-8d58-fa130b532d5d/v2.0/.well-known/openid-configuration
+    clientid: e2700a85-a4a3-4d8e-b220-f4121bfafef7
+    clientsecret: ${WEB_OIDC_CLIENT_SECRET}
+    pkce: true
+#    groupclaim: user.groups
+#    allowedgroups:
+#      - "b246439f-e3a9-41c8-bd24-f7300d7d3d7f" # HalonAdmins
+#      - "2ec31131-adff-427d-8346-73db04ac4bd3" # HalonHelpdesk
+environment:
+  privdrop:
+    user: "nobody"
+    group: "nobody"
+elasticsearch:
+  index: 'halon-transactions-*'
+  nodes:
+    - url: https://127.0.0.1:9200
+  auth:
+    username: ${ELASTIC_USERNAME}
+    password: ${ELASTIC_PASSWORD}
+  tls:
+    rejectUnauthorized: false
+#database:
+#  client: sqlite3
+#  connection:
+#    filename: /tmp/halon-web.db3

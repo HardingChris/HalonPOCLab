@@ -1,0 +1,51 @@
+version: "6.10"
+# scripting: # Needs scripting.rootpath to load from file. File doesn't currently exist. Added this section based on readme for msui-client, but not sure if I've interpreted the docs correctly 
+#  files:
+#    - id: msui-config.yaml
+#      path: /etc/halon/msui-config.yaml
+servers:
+  - id: outbound
+    transport: outbound
+    phases:
+      auth:
+        hook: outbound
+      data:
+        maxsize: 62914560
+      mailfrom:
+        hook: outbound
+      eod:
+        hook: outbound
+      rcptto:
+        hook: log_rcptto
+transportgroups:
+  - id: default
+    retry:
+      count: 30
+      intervals:
+        - interval: 60
+        - interval: 900
+        - interval: 3600
+          notify: true
+        - interval: 7200
+        - interval: 10800
+    dsn:
+      transport: outbound
+    transports:
+      - id: outbound
+        session:
+          tls:
+            mode: dane
+        connection:
+          sourceip:
+            ipv6: false
+      - id: Echoworx
+        session:
+          tls:
+            mode: optional
+        connection:
+          server:  smtp-oneworld-irl.echoworx.cloud # 158.173.146.140 (IP for mondon.com tests)  # DT Echoworx FQDN - shared infra so can only route onwards via EXO
+          sourceip:
+            ipv6: false
+resolver:
+  cache:
+    size: 10000

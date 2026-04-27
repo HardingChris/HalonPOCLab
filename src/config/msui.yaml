@@ -1,0 +1,65 @@
+version: "1.20"
+servers:
+  - server:
+      port: 8080
+      # certfile: "/etc/ssl/certs/public.crt"
+      # keyfile: "/etc/ssl/private/private.key"
+    # app:
+    #   configexport:
+    #     enabled: true
+    #     interval: 900
+    #     nodes:
+    #       - address: halon@10.0.0.1
+    database:
+      client: "mysql2"
+      connection:
+        host: "127.0.0.1"
+        port: 3306
+        database: "msui"
+        user: "msui"
+        password: "${MSUI_DB_PASSWORD}"
+    frontend:
+      url: https://www.example.com/
+    auth:
+      source:
+        users:
+          - username: "admin"
+            password: ${MSUI_ADMIN_PASSWORD}
+        accesstoken:
+          enabled: false
+        database:
+          password:
+            minlength: 6
+            complexity:
+              enabled: true
+              strength: "medium"
+            lockout: 10
+      session:
+        maxage: 3600
+      ratelimit:
+        enabled: true
+        max: 5
+        windowMs: 120000
+    auditlog:
+      enabled: true
+      interval: 86400
+      logsize: 100000
+    history:
+      elasticsearch:
+        index: 'halon-transactions-*'
+        nodes:
+          - url: https://127.0.0.1:9200
+        auth:
+          username: ${ELASTIC_USERNAME}
+          password: ${ELASTIC_PASSWORD}
+        tls:
+          rejectUnauthorized: false
+      mta:
+        nodes:
+          - id: HalonVM
+            url: http://localhost:8090
+environment:
+  privdrop:
+    user: "halon"
+    group: "halon"
+

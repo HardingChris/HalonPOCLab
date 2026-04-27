@@ -1,0 +1,26 @@
+servers:
+ - ip: "127.0.0.1"
+ - ip: "::1"
+  #- ip: "0.0.0.0/0"
+  #  comment: all ipv4
+  #- ip: "::/0"
+  #  comment: all ipv6
+users:
+  - username: "test"
+    password: "test"
+    comment: "Test user"
+
+destinations:
+  example.net:
+    tls: trust
+    tls_protocols: "TLSv1.3"
+  example.org:
+    tls: dane
+    tls_protocols: "TLSv1.2,TLSv1.3"
+  gmail.com:
+    tls: require
+    tls_protocols: "!SSLv2,!SSLv3,!TLSv1,!TLSv1.1,!TLSv1.2,TLSv1.3"
+    tls_ciphersuites: "!TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:!TLS_AES_128_GCM_SHA256"
+  mondon.com:
+    tls: require
+    tls_protocols: "TLSv1.2,TLSv1.3"
