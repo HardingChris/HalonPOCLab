@@ -6,3 +6,6 @@ environment:
   privdrop:
     user: "halon"
     group: "staff"
+authentication:
+  secrets:
+     - ${HALON_API_KEY}

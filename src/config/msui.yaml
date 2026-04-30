@@ -58,6 +58,7 @@ servers:
         nodes:
           - id: HalonVM
             url: http://localhost:8090
+            apikey: ${HALON_API_KEY}
 environment:
   privdrop:
     user: "halon"

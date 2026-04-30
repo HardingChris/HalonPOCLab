@@ -32,6 +32,7 @@ hosts:
   - address: "127.0.0.1"
     port: 8090
     tls: false
+    secret: ${HALON_API_KEY}
 users:
   - username: admin
     password: ${WEB_ADMIN_PASSWORD}

@@ -27,6 +27,7 @@ required_vars=(
   WEB_PRIVATE_KEY
   WEB_ADMIN_PASSWORD
   WEB_OIDC_CLIENT_SECRET
+  HALON_API_KEY
 )
 
 missing=()
@@ -57,13 +58,16 @@ halonconfig
 # halonconfig copies the placeholder yaml into dist/; envsubst substitutes the
 # real values so only the processed dist/ files (which are gitignored) ever
 # contain secrets.
-envsubst '${MSUI_DB_PASSWORD} ${MSUI_ADMIN_PASSWORD} ${ELASTIC_USERNAME} ${ELASTIC_PASSWORD}' \
+envsubst '${MSUI_DB_PASSWORD} ${MSUI_ADMIN_PASSWORD} ${ELASTIC_USERNAME} ${ELASTIC_PASSWORD} ${HALON_API_KEY}' \
   < src/config/msui.yaml > dist/msui.yaml
 
 envsubst '${SMTPD_ELASTIC_BASIC_AUTH}' \
   < src/config/smtpd.yaml > dist/smtpd.yaml
 
-envsubst '${WEB_ADMIN_PASSWORD} ${WEB_OIDC_CLIENT_SECRET} ${ELASTIC_USERNAME} ${ELASTIC_PASSWORD} ${WEB_PRIVATE_KEY_INDENTED}' \
+envsubst '${HALON_API_KEY}' \
+  < src/config/api.yaml > dist/api.yaml
+
+envsubst '${WEB_ADMIN_PASSWORD} ${WEB_OIDC_CLIENT_SECRET} ${ELASTIC_USERNAME} ${ELASTIC_PASSWORD} ${WEB_PRIVATE_KEY_INDENTED} ${HALON_API_KEY}' \
   < src/config/web.yaml > dist/web.yaml
 
 # ── 5. Deploy ────────────────────────────────────────────────────────────────
